@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beheerder", "Beheerder\Beheerder.csproj", "{D8A94267-AC2D-47E9-932D-BE79D2F3CAA0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8A94267-AC2D-47E9-932D-BE79D2F3CAA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8A94267-AC2D-47E9-932D-BE79D2F3CAA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8A94267-AC2D-47E9-932D-BE79D2F3CAA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8A94267-AC2D-47E9-932D-BE79D2F3CAA0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B40B32BE-9C8D-4532-8FBE-116D989B4C2C}
+	EndGlobalSection
+EndGlobal

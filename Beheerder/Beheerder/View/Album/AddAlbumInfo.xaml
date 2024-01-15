@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="Beheerder.View.Album.AddAlbumInfo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Beheerder.View.Album"
+             xmlns:vm="clr-namespace:Beheerder.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="550" d:DesignWidth="900">
+
+    <UserControl.DataContext>
+        <vm:AlbumViewModel/>
+    </UserControl.DataContext>
+    
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.25*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" 
+               HorizontalAlignment="Center" VerticalAlignment="Top"
+               FontSize="18" FontWeight="Bold"
+               Content="Album info"/>
+        <Button Grid.Row="4"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Content="Next"
+                Background="Cornflowerblue"
+                FontSize="16"
+                FontWeight="Bold"
+                Command="{Binding AddAlbumCommand}"/>
+        
+        <Label Grid.Row="1" Grid.Column="0"
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               FontSize="12" Content="Album Title"/>
+
+        <Border Grid.Row="1" Grid.Column="1" BorderThickness="1" BorderBrush="Black">
+            <TextBox  Text="{Binding AlbumTitle}"/>
+        </Border>
+
+        <Label Grid.Row="1" Grid.Column="2"
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               FontSize="12" Content="Album Artist"/>
+
+        <Border Grid.Row="1" Grid.Column="3" BorderThickness="1" BorderBrush="Black">
+            <TextBox  Text="{Binding AlbumArtist}"/>
+        </Border>
+
+        <Label Grid.Row="2" Grid.Column="0"
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               FontSize="12" Content="Release Year"/>
+
+        <Border Grid.Row="2" Grid.Column="1" BorderThickness="1" BorderBrush="Black">
+            <DatePicker SelectedDate="{Binding AlbumReleaseDate}" />
+        </Border>
+
+        <Label Grid.Row="2" Grid.Column="2"
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               FontSize="12" Content="Cover"/>
+
+        <Border Grid.Row="2" Grid.Column="3" BorderThickness="1" BorderBrush="Black">
+            <Image Source="{Binding CoverImagePath}"/>
+        </Border>
+
+    </Grid>
+</UserControl>

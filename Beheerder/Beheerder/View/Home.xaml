@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="Beheerder.View.Home"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Beheerder.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="550" d:DesignWidth="900">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" HorizontalAlignment="Center"
+            FontSize="24" FontWeight="Bold"
+            Content="Spotify"/>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"
+                Content="Create Song"
+                Background="Cornflowerblue"
+                FontSize="16"
+                FontWeight="Bold"
+                Margin="100 20"
+                Command=""/>
+
+            <Button Grid.Column="1"
+                Content="Create Album"
+                Background="Cornflowerblue"
+                FontSize="16"
+                FontWeight="Bold"
+                Margin="100 20"
+                Command=""/>
+        </Grid>
+
+        <Button Grid.Row="2"
+            Content="Create Playlist"
+            Background="Cornflowerblue"
+            FontSize="16"
+            FontWeight="Bold"
+            Margin="300 20"
+            Command=""/>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"
+                Content="Songs"
+                Background="Cornflowerblue"
+                FontSize="16"
+                FontWeight="Bold"
+                Margin="40 20"
+                Command=""/>
+
+            <Button Grid.Column="1"
+                Content="Albums"
+                Background="Cornflowerblue"
+                FontSize="16"
+                FontWeight="Bold"
+                Margin="40 20"
+                Command=""/>
+
+            <Button Grid.Column="2"
+                Content="Playlists"
+                Background="Cornflowerblue"
+                FontSize="16"
+                FontWeight="Bold"
+                Margin="40 20"
+                Command=""/>
+        </Grid>
+
+    </Grid>
+</UserControl>
