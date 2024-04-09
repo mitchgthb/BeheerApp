@@ -14,6 +14,7 @@ namespace Beheerder.ViewModel
     {
         private Song? _song = new();
         private Song _selectedSong;
+        private readonly NavigationService _navigationService;
 
         public ObservableCollection<Song> Songs { get; } = new ObservableCollection<Song>();
 
@@ -101,12 +102,13 @@ namespace Beheerder.ViewModel
         public ICommand DeleteSongCommand { get; }
 
 
-        public SongViewModel()
+        public SongViewModel(NavigationService navigationService)
         {
             LoadSongs(); // Load songs when the ViewModel is created
             AddSongCommand = new RelayCommand(AddSong);
             EditSongCommand = new RelayCommand(EditSong);
             DeleteSongCommand = new RelayCommand(DeleteSong);
+            _navigationService = navigationService;
         }
         private async void LoadSongs()
         {

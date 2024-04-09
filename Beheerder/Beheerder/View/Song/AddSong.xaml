@@ -7,11 +7,7 @@
              xmlns:vm="clr-namespace:Beheerder.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="900">
-    
-    <UserControl.DataContext>
-        <vm:SongViewModel/>
-    </UserControl.DataContext>
-    
+
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

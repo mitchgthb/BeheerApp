@@ -21,6 +21,7 @@ namespace Beheerder.ViewModel
         private Song _selectedSong; // Keep track of the selected song for editing
         private Playlist _selectedPlaylist; // Keep track of the selected song for editing
         private ObservableCollection<Song> _selectedSongs;
+        private readonly NavigationService _navigationService;
 
 
         public string Title
@@ -116,7 +117,7 @@ namespace Beheerder.ViewModel
         public ICommand DeletePlaylistCommand { get; }
         public ICommand AddSelectedSongsToPlaylistCommand { get; }
 
-        public PlaylistViewModel()
+        public PlaylistViewModel(NavigationService navigationService)
         {
             Songs = new ObservableCollection<Song>();
             AddPlaylistCommand = new RelayCommand(AddPlaylist);
@@ -124,6 +125,7 @@ namespace Beheerder.ViewModel
             DeleteSongCommand = new RelayCommand(DeleteSong);
             EditPlaylistCommand = new RelayCommand(EditPlaylist);
             DeletePlaylistCommand = new RelayCommand(DeletePlaylist);
+            _navigationService = navigationService;
         }
 
         private async void AddPlaylist(object param)

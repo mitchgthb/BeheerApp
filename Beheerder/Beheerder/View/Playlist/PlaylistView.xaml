@@ -8,10 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="900">
 
-    <UserControl.DataContext>
-        <vm:PlaylistViewModel/>
-    </UserControl.DataContext>
-
     <Grid Background="White">
         
         <Grid.RowDefinitions>

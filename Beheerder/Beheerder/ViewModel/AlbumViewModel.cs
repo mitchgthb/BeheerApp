@@ -19,6 +19,7 @@ namespace Beheerder.ViewModel
         private DateTime _albumReleaseDate;
         private ObservableCollection<Album> _albums;
         //private ObservableCollection<Song> _songs;
+        private readonly NavigationService _navigationService;
         private TimeSpan _length;
         private string _songTitle;
         private string _songArtist;
@@ -162,7 +163,7 @@ namespace Beheerder.ViewModel
         public ICommand EditSongCommand { get; }
         public ICommand DeleteSongCommand { get; }
 
-        public AlbumViewModel()
+        public AlbumViewModel(NavigationService navigationService)
         {
             //Albums = new ObservableCollection<Album>();
             AlbumReleaseDate = DateTime.Now;  // Set default release date for the album
@@ -170,6 +171,7 @@ namespace Beheerder.ViewModel
             AddSongCommand = new RelayCommand(AddSong);
             EditSongCommand = new RelayCommand(EditSong);
             DeleteSongCommand = new RelayCommand(DeleteSong);
+            _navigationService = navigationService;
         }
 
         private async void AddAlbum(object parameter)
