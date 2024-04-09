@@ -1,4 +1,6 @@
 ﻿using Beheerder.View;
+using Beheerder.View.Album;
+using Beheerder.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +23,31 @@ namespace Beheerder
     /// </summary>
     public partial class MainWindow : Window
     {
-        //private AddAlbum addAlbum;
+        private NavigationService _navigationService;
+
         public MainWindow()
         {
             InitializeComponent();
-            //addAlbum = new AddAlbum();
-            //contentControl.Content = addAlbum;
+
+            //DataContext = new MainViewModel();
+
+            _navigationService = new NavigationService(MainContent);
+
+            _navigationService.RegisterView("AddSong", new AddSong());
+            _navigationService.RegisterView("AddAlbumInfo", new AddAlbumInfo());
+            _navigationService.RegisterView("AddAlbum", new AddAlbum());
+            _navigationService.RegisterView("AlbumList", new AlbumList());
+            _navigationService.RegisterView("AlbumView", new AlbumView());
+            _navigationService.RegisterView("CreatePlaylist", new CreatePlaylist());
+            _navigationService.RegisterView("PlaylistList", new PlaylistList());
+            _navigationService.RegisterView("PlaylistView", new PlaylistView());
+            _navigationService.RegisterView("SongList", new SongList());
+            _navigationService.RegisterView("SongView", new SongView());
+            _navigationService.RegisterView("Home", new Home(_navigationService));
+            _navigationService.RegisterView("SelectSongs", new SelectSongs());
+
+            _navigationService.NavigateTo("Home");
         }
+
     }
 }

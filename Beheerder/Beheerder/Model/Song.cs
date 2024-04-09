@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Beheerder.Model
 {
-    internal class Song : NotifyPropertyChanged
+    public class Song : NotifyPropertyChanged
     {
         private string _title;
         private string _artist;
@@ -99,5 +99,6 @@ namespace Beheerder.Model
             this.CoverImagePath = coverImagePath;
             //Lists.Songs.Add(this);
         }
+        public Song() { }
     }
 }

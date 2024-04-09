@@ -44,7 +44,7 @@
         Background="Cornflowerblue"
         FontSize="16"
         FontWeight="Bold"
-        CommandParameter="{Binding _selectedSong}"
+        CommandParameter="{Binding SelectedSong}"
         Command="{Binding EditSongCommand}"/>
 
         <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center"

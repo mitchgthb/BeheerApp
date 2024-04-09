@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Beheerder;
+using Beheerder.ViewModel;
 
 namespace Beheerder.View
 {
@@ -20,9 +22,12 @@ namespace Beheerder.View
     /// </summary>
     public partial class Home : UserControl
     {
-        public Home()
+
+        public Home(NavigationService navigationService)
         {
             InitializeComponent();
+            DataContext = new HomeViewModel(navigationService);
         }
+
     }
 }

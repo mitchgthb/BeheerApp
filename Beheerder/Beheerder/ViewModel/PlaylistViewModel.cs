@@ -1,5 +1,6 @@
 ﻿using Beheerder.Model;
 using Beheerder.View;
+using Beheerder.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,6 +20,7 @@ namespace Beheerder.ViewModel
         private ObservableCollection<Playlist> _playlists;
         private Song _selectedSong; // Keep track of the selected song for editing
         private Playlist _selectedPlaylist; // Keep track of the selected song for editing
+        private ObservableCollection<Song> _selectedSongs;
 
 
         public string Title
@@ -94,6 +96,17 @@ namespace Beheerder.ViewModel
             }
 
         }
+        public ObservableCollection<Song> SelectedSongs
+        {
+            get => _selectedSongs;
+            set
+            {
+                _selectedSongs = value;
+                RaisePropertyChange(nameof(SelectedSongs));
+
+                // Additional logic if needed
+            }
+        }
 
         public ICommand AddPlaylistCommand { get; set; }
         public ICommand AddSongCommand { get; set; }
@@ -101,68 +114,98 @@ namespace Beheerder.ViewModel
         public ICommand DeleteSongCommand { get; }
         public ICommand EditPlaylistCommand { get; }
         public ICommand DeletePlaylistCommand { get; }
+        public ICommand AddSelectedSongsToPlaylistCommand { get; }
 
         public PlaylistViewModel()
         {
             Songs = new ObservableCollection<Song>();
             AddPlaylistCommand = new RelayCommand(AddPlaylist);
-            AddSongCommand = new RelayCommand(AddSong);
+            AddSongCommand = new RelayCommand(AddSongToPlaylist);
             DeleteSongCommand = new RelayCommand(DeleteSong);
             EditPlaylistCommand = new RelayCommand(EditPlaylist);
             DeletePlaylistCommand = new RelayCommand(DeletePlaylist);
         }
 
-        private void AddPlaylist(object param)
+        private async void AddPlaylist(object param)
         {
             // Implement logic to add the album using the provided properties
             var playlist = new Playlist(Title, new ObservableCollection<Song>(), CreatedOn);
             Playlists.Add(playlist);
+
+            // Save the updated list of playlists to the JSON file
+            await JsonHandler.Add(playlist);
         }
 
-        private void AddSong(ObservableCollection<Song> param)
+        //private void AddSong(ObservableCollection<Song> param)
+        //{
+        //    // Assuming the selected album is the first one, you might want to modify this logic based on your requirements
+        //    foreach (Song song in param)
+        //    {
+        //        Songs.Add(song);
+        //    }
+        //}
+        private async void AddSongToPlaylist(object parameter)
         {
-            // Assuming the selected album is the first one, you might want to modify this logic based on your requirements
-            foreach (Song song in param)
+            // Ensure a playlist is selected for addition
+            if (_selectedPlaylist != null && parameter is ObservableCollection<Song> selectedSongs)
             {
-                Songs.Add(song);
+                // Add each selected song to the Songs collection of the selected playlist
+                foreach (var selectedSong in selectedSongs)
+                {
+                    _selectedPlaylist.Songs.Add(selectedSong);
+                }
+
+                // Save the updated list of playlists to the JSON file
+                await JsonHandler.Add(Playlists);
+
+                // Reset input fields and clear the selected songs
+                //ClearInputFields();
             }
         }
 
-        private void DeleteSong(object parameter)
+        private async void DeleteSong(object parameter)
         {
             // Ensure a song is selected for deletion
-            if (_selectedSong != null)
+            if (_selectedSong != null && _selectedPlaylist != null)
             {
-                // Remove the selected song from the Songs collection
-                Songs.Remove(_selectedSong);
+                // Remove the selected song from the Songs collection of the selected playlist
+                _selectedPlaylist.Songs.Remove(_selectedSong);
+
+                // Save the updated list of playlists to the JSON file
+                await JsonHandler.Add(Playlists);
 
                 // Reset input fields and clear the selected song
+                ClearInputFields();
                 _selectedSong = null;
             }
         }
-        private void EditPlaylist(object param)
+        private async void EditPlaylist(object parameter)
         {
-            // param should be the selected playlist
+            // Ensure a playlist is selected for editing
             if (_selectedPlaylist != null)
             {
-                // Implement logic to open the edit view with selectedPlaylist
-                // You might navigate to another view or show a dialog for editing
-                // For now, just updating properties for demonstration purposes
-                Title = _selectedPlaylist.Title;
-                CreatedOn = _selectedPlaylist.CreatedOn;
+                // Update the selected playlist with the edited values
+                _selectedPlaylist.Title = Title;
 
-                // Update the _selectedPlaylist
+                // Save the updated list of playlists to the JSON file
+                await JsonHandler.Add(Playlists);
+
+                // Reset input fields and clear the selected playlist
+                ClearInputFields();
                 _selectedPlaylist = null;
             }
         }
 
-        private void DeletePlaylist(object param)
+        private async void DeletePlaylist(object parameter)
         {
-            // param should be the selected playlist
+            // Ensure a playlist is selected for deletion
             if (_selectedPlaylist != null)
             {
                 // Remove the selected playlist from the Playlists collection
                 Playlists.Remove(_selectedPlaylist);
+
+                // Save the updated list of playlists to the JSON file
+                await JsonHandler.Add(Playlists);
 
                 // Reset input fields and clear the selected playlist
                 ClearInputFields();

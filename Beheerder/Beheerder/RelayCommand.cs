@@ -9,15 +9,21 @@ using System.Windows.Input;
 
 namespace Beheerder
 {
-    internal class RelayCommand : ICommand
+    public class RelayCommand : ICommand
     {
         private readonly Action<object> _execute;
         private readonly Predicate<object> _canExecute;
         private Action<ObservableCollection<Song>> addSong;
+        private Action createSong;
 
         public RelayCommand(Action<ObservableCollection<Song>> addSong)
         {
             this.addSong = addSong;
+        }
+
+        public RelayCommand(Action createSong)
+        {
+            this.createSong = createSong;
         }
 
         public RelayCommand(Action<object> execute, Predicate<object> canExecute = null)

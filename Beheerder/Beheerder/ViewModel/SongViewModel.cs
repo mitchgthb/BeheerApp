@@ -1,4 +1,5 @@
 ﻿using Beheerder.Model;
+using Beheerder.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,70 +12,86 @@ namespace Beheerder.ViewModel
 {
     internal class SongViewModel : NotifyPropertyChanged
     {
-        private string _title;
-        private string _artist;
-        private string _genre;
-        private string _coverImagePath;
-        private DateTime _releaseDate;
-        private TimeSpan _length;
-        private Song _selectedSong; // Keep track of the selected song for editing
+        private Song? _song = new();
+        private Song _selectedSong;
+
         public ObservableCollection<Song> Songs { get; } = new ObservableCollection<Song>();
+
+        public Song SelectedSong
+        {
+            get => _selectedSong;
+            set
+            {
+                _selectedSong = value;
+                RaisePropertyChange(nameof(SelectedSong));
+
+                // Update the editable fields with the values of the selected song
+                if (_selectedSong != null)
+                {
+                    Title = _selectedSong.Title;
+                    Artist = _selectedSong.Artist;
+                    Genre = _selectedSong.Genre;
+                    ReleaseDate = _selectedSong.ReleaseDate;
+                    Length = _selectedSong.Length;
+                }
+            }
+        }
 
         public string Title
         {
-            get => _title;
+            get => _song.Title;
             set
             {
-                _title = value;
+                _song.Title = value;
                 RaisePropertyChange(Title);
             }
         }
 
         public string Artist
         {
-            get => _artist;
+            get => _song.Artist;
             set
             {
-                _artist = value;
+                _song.Artist = value;
                 RaisePropertyChange(Artist);
             }
         }
 
         public string Genre
         {
-            get => _genre;
+            get => _song.Genre;
             set
             {
-                _genre = value;
+                _song.Genre = value;
                 RaisePropertyChange(Genre);
             }
         }
         public string CoverImagePath
         {
-            get { return _coverImagePath; }
+            get { return _song.CoverImagePath; }
             set
             {
-                _coverImagePath = value;
-                RaisePropertyChange("CoverImagePath");
+                _song.CoverImagePath = value;
+                RaisePropertyChange(CoverImagePath);
             }
         }
 
         public DateTime ReleaseDate
         {
-            get => _releaseDate;
+            get => _song.ReleaseDate;
             set
             {
-                _releaseDate = value;
+                _song.ReleaseDate = value;
                 RaisePropertyChange(nameof(ReleaseDate));
             }
         }
 
         public TimeSpan Length
         {
-            get => _length;
+            get => _song.Length;
             set
             {
-                _length = value;
+                _song.Length = value;
                 RaisePropertyChange(nameof(Length));
             }
         }
@@ -86,16 +103,31 @@ namespace Beheerder.ViewModel
 
         public SongViewModel()
         {
+            LoadSongs(); // Load songs when the ViewModel is created
             AddSongCommand = new RelayCommand(AddSong);
             EditSongCommand = new RelayCommand(EditSong);
             DeleteSongCommand = new RelayCommand(DeleteSong);
         }
+        private async void LoadSongs()
+        {
+            var songs = await JsonHandler.GetAll<Song>();
+            foreach (var song in songs)
+            {
+                Songs.Add(song);
+            }
+        }
 
+        private async void SaveSongs()
+        {
+            await JsonHandler.Add(Songs.ToList());
+        }
         private void AddSong(object parameter)
         {
             // Add logic to create and add a new song
             var newSong = new Song(Title, Artist, Genre, ReleaseDate, Length);
             Songs.Add(newSong);
+
+            SaveSongs();            //save songs in json
 
             // Reset input fields
             ClearInputFields();
@@ -104,32 +136,36 @@ namespace Beheerder.ViewModel
         private void EditSong(object parameter)
         {
             // Ensure a song is selected for editing
-            if (_selectedSong != null)
+            if (SelectedSong != null)
             {
                 // Update the selected song with the edited values
-                _selectedSong.Title = Title;
-                _selectedSong.Artist = Artist;
-                _selectedSong.Genre = Genre;
-                _selectedSong.ReleaseDate = ReleaseDate;
-                _selectedSong.Length = Length;
+                SelectedSong.Title = Title;
+                SelectedSong.Artist = Artist;
+                SelectedSong.Genre = Genre;
+                SelectedSong.ReleaseDate = ReleaseDate;
+                SelectedSong.Length = Length;
+
+                SaveSongs();            //save songs in json
 
                 // Reset input fields and clear the selected song
                 ClearInputFields();
-                _selectedSong = null;
+                SelectedSong = null;
             }
         }
 
         private void DeleteSong(object parameter)
         {
             // Ensure a song is selected for deletion
-            if (_selectedSong != null)
+            if (_song != null)
             {
                 // Remove the selected song from the Songs collection
-                Songs.Remove(_selectedSong);
+                Songs.Remove(_song);
+
+                SaveSongs();            //save songs in json
 
                 // Reset input fields and clear the selected song
                 ClearInputFields();
-                _selectedSong = null;
+                _song = null;
             }
         }
         private void ClearInputFields()

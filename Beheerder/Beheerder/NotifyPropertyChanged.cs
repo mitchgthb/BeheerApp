@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Beheerder
 {
-    internal class NotifyPropertyChanged : INotifyPropertyChanged
+    public class NotifyPropertyChanged : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public void RaisePropertyChange(string propertyname)

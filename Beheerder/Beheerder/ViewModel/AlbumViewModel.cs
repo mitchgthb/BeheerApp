@@ -1,4 +1,5 @@
 ﻿using Beheerder.Model;
+using Beheerder.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,6 +26,7 @@ namespace Beheerder.ViewModel
         private string _songGenre;
         private DateTime _songReleaseDate;
         private Song _selectedSong; // Keep track of the selected song for editing
+        private Album _selectedAlbum; // Keep track of the selected album for editing
 
         public ObservableCollection<Song> Songs { get; } = new ObservableCollection<Song>();
         public ObservableCollection<Album> Albums
@@ -170,16 +172,54 @@ namespace Beheerder.ViewModel
             DeleteSongCommand = new RelayCommand(DeleteSong);
         }
 
-        private void AddAlbum(object parameter)
+        private async void AddAlbum(object parameter)
         {
             // Implement logic to add the album using the provided properties
             var album = new Album(AlbumTitle, AlbumArtist, new ObservableCollection<Song>(), AlbumReleaseDate, CoverImagePath);
             Albums.Add(album);
+
+            await JsonHandler.Add(album);
+
             // Reset input fields
             this.AlbumTitle = string.Empty;
             this.AlbumArtist = string.Empty;
             this.ReleaseYear = string.Empty;
             this.CoverImagePath = string.Empty;
+        }
+        private async void EditAlbum(object parameter)
+        {
+            // Ensure an album is selected for editing
+            if (_selectedAlbum != null)
+            {
+                // Update the selected album with the edited values
+                _selectedAlbum.Title = AlbumTitle;
+                _selectedAlbum.Artist = AlbumArtist;
+                _selectedAlbum.ReleaseDate = AlbumReleaseDate;
+                _selectedAlbum.CoverImagePath = CoverImagePath;
+
+                // Save the updated list of albums to the JSON file
+                await JsonHandler.Add(_selectedAlbum);
+
+                // Reset input fields and clear the selected album
+                ClearInputFields();
+                _selectedAlbum = null;
+            }
+        }
+        private async void DeleteAlbum(object parameter)
+        {
+            // Ensure an album is selected for deletion
+            if (_selectedAlbum != null)
+            {
+                // Remove the selected album from the Albums collection
+                Albums.Remove(_selectedAlbum);
+
+                // Save the updated list of albums to the JSON file
+                await JsonHandler.Add(Albums);
+
+                // Reset input fields and clear the selected album
+                ClearInputFields();
+                _selectedAlbum = null;
+            }
         }
 
         private void AddSong(object parameter)
@@ -216,13 +256,16 @@ namespace Beheerder.ViewModel
             }
         }
 
-        private void DeleteSong(object parameter)
+        private async void DeleteSong(object parameter)
         {
             // Ensure a song is selected for deletion
-            if (_selectedSong != null)
+            if (_selectedSong != null && _selectedAlbum != null)
             {
-                // Remove the selected song from the Songs collection
-                Songs.Remove(_selectedSong);
+                // Remove the selected song from the Songs collection of the selected album
+                _selectedAlbum.Songs.Remove(_selectedSong);
+
+                // Save the updated list of albums to the JSON file
+                await JsonHandler.Add(Albums);
 
                 // Reset input fields and clear the selected song
                 ClearInputFields();
@@ -240,7 +283,7 @@ namespace Beheerder.ViewModel
 
         public int getSongAmount()
         {
-            return Songs.Count;
+            return _selectedAlbum.Songs.Count;
         }
 
     }

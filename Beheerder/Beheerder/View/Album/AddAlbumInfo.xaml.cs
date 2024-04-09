@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Beheerder;
 
 namespace Beheerder.View.Album
 {
@@ -20,9 +21,12 @@ namespace Beheerder.View.Album
     /// </summary>
     public partial class AddAlbumInfo : UserControl
     {
+        private readonly NavigationService _navigationService;
         public AddAlbumInfo()
         {
             InitializeComponent();
+            //_navigationService = new NavigationService(); // Initialize your NavigationService
+
         }
     }
 }

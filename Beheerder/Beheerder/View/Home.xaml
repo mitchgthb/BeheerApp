@@ -4,8 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Beheerder.View"
+             xmlns:vm="clr-namespace:Beheerder.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="900">
+
+    <UserControl.DataContext>
+        <vm:HomeViewModel/>
+    </UserControl.DataContext>
+
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -31,7 +37,7 @@
                 FontSize="16"
                 FontWeight="Bold"
                 Margin="100 20"
-                Command=""/>
+                Command="{Binding CreateSongCommand}"/>
 
             <Button Grid.Column="1"
                 Content="Create Album"
@@ -39,7 +45,7 @@
                 FontSize="16"
                 FontWeight="Bold"
                 Margin="100 20"
-                Command=""/>
+                Command="{Binding CreateAlbumCommand}"/>
         </Grid>
 
         <Button Grid.Row="2"
@@ -48,7 +54,7 @@
             FontSize="16"
             FontWeight="Bold"
             Margin="300 20"
-            Command=""/>
+            Command="{Binding CreatePlaylistCommand}"/>
 
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
@@ -62,7 +68,7 @@
                 FontSize="16"
                 FontWeight="Bold"
                 Margin="40 20"
-                Command=""/>
+                Command="{Binding ShowSongListCommand}"/>
 
             <Button Grid.Column="1"
                 Content="Albums"
@@ -70,7 +76,7 @@
                 FontSize="16"
                 FontWeight="Bold"
                 Margin="40 20"
-                Command=""/>
+                Command="{Binding ShowPlaylistListCommand}"/>
 
             <Button Grid.Column="2"
                 Content="Playlists"
@@ -78,7 +84,7 @@
                 FontSize="16"
                 FontWeight="Bold"
                 Margin="40 20"
-                Command=""/>
+                Command="{Binding ShowAlbumCommand}"/>
         </Grid>
 
     </Grid>
